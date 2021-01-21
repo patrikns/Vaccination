@@ -14,5 +14,8 @@ namespace Vaccination.Data
         }
 
         public DbSet<Vaccine> Vaccines { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Vaccination> Vaccinations { get; set; }
     }
 }

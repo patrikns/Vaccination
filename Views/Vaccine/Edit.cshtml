@@ -1,0 +1,24 @@
+﻿@model Vaccination.ViewModels.VaccineEditViewModel
+
+@{
+    ViewData["Title"] = "Vaccines";
+}
+
+<form method="post" asp-controller="Vaccine" asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="Supplier">Leverantör</label>
+        <input type="type" name="name" value="" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name">Namn</label>
+        <input type="type" name="name" value="" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EuOkStatus">OK-status</label>
+        <input type="type" name="name" value="" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Comment">Kommentar</label>
+        <textarea ></textarea>
+        </div>
+</form>

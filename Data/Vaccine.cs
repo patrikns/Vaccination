@@ -15,11 +15,14 @@ namespace Vaccination.Data
             mRNA,
             Vector
         }
-        [MaxLength(100)]
-        public string Supplier { get; set; }
+        public Supplier Supplier { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         public DateTime? EuOKStatus { get; set; }
         public Type VaccineType { get; set; }
+
+
+        public string Comment { get; set; }
+        public int AntalDoser { get; set; }
     }
 }
