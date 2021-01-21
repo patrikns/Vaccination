@@ -1,5 +1,3 @@
-using System;
-
 namespace Vaccination.Models
 {
     public class ErrorViewModel

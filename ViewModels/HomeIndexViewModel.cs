@@ -1,5 +1,4 @@
 ﻿using System;
-using Vaccination.Data;
 
 namespace Vaccination.ViewModels
 {

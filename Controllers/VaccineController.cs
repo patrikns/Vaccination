@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vaccination.Data;
@@ -23,11 +21,11 @@ namespace Vaccination.Controllers
             var viewModel = new VaccineIndexViewModel();
 
             viewModel.Vaccines = _dbContext.Vaccines
-                .Where(r=>q==null||r.Name.Contains(q))
+                .Where(r=>q==null||r.Name.Contains(q) || r.Supplier.Name.Contains(q))
                 .Select(dbVacc => new VaccineViewModel
             {
                 Id = dbVacc.Id,
-                Supplier = dbVacc.Supplier.Name,
+                Supplier = dbVacc.Supplier,
                 Name = dbVacc.Name
             }).ToList();
             
@@ -38,8 +36,33 @@ namespace Vaccination.Controllers
         {
             var viewModel = new VaccineNewViewModel();
             viewModel.Types = GetTypeSelectListItems();
-            
+            viewModel.AllSuppliers = GetSupplierListItems();
 
+            return View(viewModel);
+        }
+        
+        [HttpPost]
+        public IActionResult New(VaccineNewViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var dbVaccine = new Vaccine();
+                _dbContext.Vaccines.Add(dbVaccine);
+
+                dbVaccine.Supplier = _dbContext.Suppliers
+                    .First(r => r.Id == viewModel.SelectedSupplierID);
+                dbVaccine.VaccineType = (Vaccine.Type)viewModel.Type;
+                dbVaccine.EuOKStatus = viewModel.EuOkStatus;
+                dbVaccine.Name = viewModel.Name;
+                dbVaccine.AntalDoser = viewModel.AntalDoser;
+                dbVaccine.Comment = viewModel.Comment;
+                _dbContext.SaveChanges();
+            
+                return RedirectToAction("Index");
+            }
+
+            viewModel.Types = GetTypeSelectListItems();
+            viewModel.AllSuppliers = GetSupplierListItems();
             return View(viewModel);
         }
 
@@ -47,25 +70,39 @@ namespace Vaccination.Controllers
         {
             var viewModel = new VaccineEditViewModel();
 
-            var dbVaccine = _dbContext.Vaccines.Include(p=>p.Supplier).First(r => r.Id == Id);
+            var dbVaccine = _dbContext.Vaccines.Include(p=>p.Supplier)
+                .First(r => r.Id == Id);
 
             viewModel.Id = dbVaccine.Id;
-            viewModel.EuOkStatus = dbVaccine.EuOKStatus;
-            viewModel.Name = dbVaccine.Name;
             viewModel.SelectedSupplierID = dbVaccine.Supplier.Id;
             viewModel.AllSuppliers = GetSupplierListItems();
             viewModel.Type = (int)dbVaccine.VaccineType;
             viewModel.Types = GetTypeSelectListItems();
+            viewModel.EuOkStatus = dbVaccine.EuOKStatus;
+            viewModel.Name = dbVaccine.Name;
             viewModel.AntalDoser = dbVaccine.AntalDoser;
             viewModel.Comment = dbVaccine.Comment;
+
+            viewModel.IsActive = true;
 
             return View(viewModel);
         }
 
         private List<SelectListItem> GetSupplierListItems()
         {
-            
-            return null;
+            var list = new List<SelectListItem>();
+            list.Add(new SelectListItem
+            {
+                Value = "0", Text = "Select item..."
+            });
+
+            list.AddRange(_dbContext.Suppliers
+                .Select(r=>new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = r.Name
+                }));
+            return list;
         }
 
         [HttpPost]
@@ -79,16 +116,16 @@ namespace Vaccination.Controllers
 
                 dbVaccine.Supplier = _dbContext.Suppliers
                     .First(r => r.Id == viewModel.SelectedSupplierID);
-                
+                dbVaccine.VaccineType = (Vaccine.Type)viewModel.Type;
                 dbVaccine.EuOKStatus = viewModel.EuOkStatus;
                 dbVaccine.Name = viewModel.Name;
                 dbVaccine.AntalDoser = viewModel.AntalDoser;
                 dbVaccine.Comment = viewModel.Comment;
                 _dbContext.SaveChanges();
-            
                 return RedirectToAction("Index");
             }
-
+            viewModel.Types = GetTypeSelectListItems();
+            viewModel.AllSuppliers = GetSupplierListItems();
             return View(viewModel);
         }
         

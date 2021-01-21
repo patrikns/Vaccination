@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Vaccination.Data;
 
 namespace Vaccination.ViewModels
 {
@@ -14,6 +12,6 @@ namespace Vaccination.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Supplier { get; set; }
+        public Supplier Supplier { get; set; }
     }
 }

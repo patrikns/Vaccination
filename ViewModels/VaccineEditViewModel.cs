@@ -17,7 +17,7 @@ namespace Vaccination.ViewModels
         public List<SelectListItem> Types { get; set; } = new List<SelectListItem>();
 
         [MaxLength(100)]
-        public string Supplier { get; set; }
+        public Supplier Supplier { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
         [DataType(DataType.Date)]
@@ -26,5 +26,7 @@ namespace Vaccination.ViewModels
         public string Comment { get; set; }
         [Range(1,1000)]
         public int AntalDoser { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }
