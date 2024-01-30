@@ -25,7 +25,7 @@ namespace Vaccination.Controllers
                 .Select(dbVacc => new VaccineViewModel
             {
                 Id = dbVacc.Id,
-                Supplier = dbVacc.Supplier,
+                Supplier = dbVacc.Supplier.Name,
                 Name = dbVacc.Name
             }).ToList();
             
@@ -66,12 +66,12 @@ namespace Vaccination.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Edit(int Id)
+        public IActionResult Edit(int id)
         {
             var viewModel = new VaccineEditViewModel();
 
             var dbVaccine = _dbContext.Vaccines.Include(p=>p.Supplier)
-                .First(r => r.Id == Id);
+                .First(r => r.Id == id);
 
             viewModel.Id = dbVaccine.Id;
             viewModel.SelectedSupplierID = dbVaccine.Supplier.Id;

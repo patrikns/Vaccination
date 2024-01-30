@@ -14,9 +14,8 @@ namespace Vaccination.ViewModels
         public int Type { get; set; }
         public List<SelectListItem> Types { get; set; } = new List<SelectListItem>();
 
-        [MaxLength(100)]
         public Supplier Supplier { get; set; }
-        [MaxLength(50)]
+        [Required,MaxLength(50)]
         public string Name { get; set; }
         [DataType(DataType.Date)]
         public DateTime? EuOkStatus { get; set; }

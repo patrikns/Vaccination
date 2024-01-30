@@ -3,3 +3,60 @@
 @{
     ViewData["Title"] = "Vaccines";
 }
+
+<section class="py-5">
+    <div class="row">
+        <div class="col-lg-12 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="h6 text-uppercase mb-0">Lägg till vaccin</h3>
+                </div>
+
+                <div class="card-body">
+                    <form asp-controller="Vaccine" asp-action="New" method="post">
+                        <div class="form-group">
+                            <label asp-for="Name">Namn</label>
+                            <input class="form-control" asp-for="Name">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SelectedSupplierID">Leverantör</label>
+                            <select class="form-control"
+                                    asp-for="SelectedSupplierID"
+                                    asp-items="Model.AllSuppliers"></select>
+                            <span asp-validation-for="SelectedSupplierID" class="field-validation-error"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="EuOkStatus">Datum för godkännande</label>
+                            <input class="form-control" asp-for="EuOkStatus">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Type">Typ av vaccin</label>
+                            <select class="form-control" asp-for="Type" asp-items="Model.Types"></select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="AntalDoser">Antal doser</label>
+                            <input class="form-control" asp-for="AntalDoser">
+                            <span asp-validation-for="AntalDoser" class="input-validation-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Comment">Kommentera</label>
+                            <textarea rows="5" cols="30"
+                                      class="form-control" asp-for="Comment"></textarea>
+                            <span asp-validation-for="Comment" class="field-validation-error"></span>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Skicka</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
